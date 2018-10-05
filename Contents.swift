@@ -17,18 +17,22 @@ class Bank
         self.nameOfBank = nameOfBank;
     }
     
+    // Function for printing the name of the bank.
     func welcome(nameOfBank: String)
     {
         print("Welcome to the \(nameOfBank) bank");
         
     }
     
+    //Printing the transaction status whether it's done or not
     func giveTransactionHistory()
     {
         print("Successful Transaction");
     }
     
 }
+
+//Client class inheriting from bank and also using instance of account class for using most of it's properties and functions.
 
 class Client: Bank
 {
@@ -41,6 +45,7 @@ class Client: Bank
     var account: Account;
     var pin: Int = 0;
     
+    //Default constructor which is overriding super class's constructor.
     override init()
     {
         name = "";
@@ -49,10 +54,11 @@ class Client: Bank
         dob = "";
         gender = "";
         account = Account();
-        pin = 1234;
+        pin = 0;
         super.init();
     }
     
+    //Parameterized constructor
     init(name: String, address: String, age: Int, dob: String, gender: String, nameOfBank: String, account: Account)
     {
         self.name = name;
@@ -64,10 +70,14 @@ class Client: Bank
         super.init(nameOfBank: nameOfBank);
     }
     
+    //Client class is inheriting from bank class so it's neccessary to write this method.
     override func welcome(nameOfBank: String)
     {
-        
+        print("Welcome to the \(nameOfBank) bank");
     }
+    
+    //function Change name to change the name of the client.This method is here because nowadays client can change profile info online as well.
+    //There is no need to go to the bank for changing profile info.
     
     func changeName(newName: String)
     {
@@ -75,19 +85,19 @@ class Client: Bank
         print("Updated name: \(name)");
     }
     
+    //function Change address to change the address of the client.
     func changeAddress(newAddress: String)
     {
         self.address = newAddress;
         print("Updated address: \(address)");
     }
     
+    //Change pin
     func changePin(newPin: Int)
     {
         self.pin = newPin;
         print("Updated pin: \(pin)");
     }
-    
-    
     
 }
 
@@ -119,6 +129,7 @@ class Account
     
     var caseAccount = accountTypes.Chequing
     
+    //Function create account using enum to create an account.
     func createAccount(accountType: accountTypes) -> Bool
     {
         var overdraftStatus = overdraftProtector;
@@ -148,6 +159,7 @@ class Account
         
     }
     
+    //First check an account has overdraft protection or not.
     func checkOverDraft()
     {
         if(overdraftProtector == true)
@@ -169,30 +181,6 @@ class Account
             print("You do not have overdraft protection!")
         }
     }
-    //    func overdraftCheck()
-    //    {
-    //
-    //        var overDraft = createAccount(accountType: caseAccount)
-    //
-    //        if(overDraft == true)
-    //        {
-    //            if(balance < -500 )
-    //            {
-    //                print("Deposit more money. You aren't allowed to overdraft more than 500")
-    //            }
-    //
-    //            else
-    //            {
-    //                balance = balance - 0.50
-    //                print("Balance after overdraft")
-    //                totalBalance();
-    //            }
-    //        }
-    //
-    //        else {
-    //            print("You do not have overdraft protection!")
-    //        }
-    //    }
     
     func deposit(amountToDeposit: Double)
     {
@@ -231,34 +219,53 @@ class Account
 
 
 var bank = Bank();
-bank.welcome(nameOfBank: "RBC");
 
 var accountInstance = Account();
 var caseAccount = Account.accountTypes.Chequing
-//accountInstance.createAccount(accountType: caseAccount)
-//accountInstance.deposit(amountToDeposit: 2500)
-//accountInstance.withdrawal(amountToWithdraw: 1000)
 
-var client = Client(name: "Ekta", address: "Woodbridge", age: 23, dob: "09-10-1995", gender: "Female",nameOfBank: "RBC", account: accountInstance);
-print("Name: \(client.name), Address: \(client.address), Age:  \(client.age), Date of birth: \(client.dob), Gender: \(client.gender), Bank name: \(client.nameOfBank)");
+var client = Client(name: "Ekta", address: "Woodbridge", age: 23, dob: "09-10-1995", gender: "Female",nameOfBank: "Scotiabank", account: accountInstance);
 
 client.welcome(nameOfBank: "Scotiabank");
+print("")
+print("Name: \(client.name), Address: \(client.address), Age:  \(client.age), Date of birth: \(client.dob), Gender: \(client.gender), Bank name: \(client.nameOfBank)");
+print("")
+
 print("Want to change your name?")
 client.changeName(newName: "Kavita");
+print("")
+
 print("Want to change your address?")
 client.changeAddress(newAddress: "Vaughan");
+print("")
+
 print("Want to change your pin?")
 client.changePin(newPin: 1945)
 
+print("")
 print("What type of account you want to create?")
 var clientAccount = accountInstance;
+print("Create Chequing Account")
 clientAccount.createAccount(accountType: caseAccount)
-clientAccount.deposit(amountToDeposit: 2500)
-bank.giveTransactionHistory()
-clientAccount.withdrawal(amountToWithdraw: 1000)
-bank.giveTransactionHistory()
-clientAccount.checkOverDraft()
+print("")
 
+print("How much amount you want to deposit?")
+clientAccount.deposit(amountToDeposit: 2500)
+print("")
+
+print("Do you want to check transaction status?")
+bank.giveTransactionHistory()
+print("")
+
+print("Want to withdraw?")
+clientAccount.withdrawal(amountToWithdraw: 1000)
+print("")
+
+print("Do you want to check transaction status?")
+bank.giveTransactionHistory()
+print("")
+print("Overdraft")
+clientAccount.checkOverDraft()
+print("")
 
 
 
